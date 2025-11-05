@@ -1,6 +1,6 @@
 FROM gitea/act_runner:0.2.13
 
-RUN apk add --no-cache nodejs docker-cli curl
+RUN apk add --no-cache nodejs docker-cli curl go
 
 # Install Skaffold (CI/CD orchestrator)
 # Install Skaffold binary (CI/CD orchestrator)
