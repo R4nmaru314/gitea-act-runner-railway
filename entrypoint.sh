@@ -7,7 +7,8 @@ if [ ! -f .runner ]; then
     --no-interactive \
     --instance "${GITEA_INSTANCE_URL}" \
     --token "${GITEA_RUNNER_REGISTRATION_TOKEN}" \
-    --name "${GITEA_RUNNER_NAME}"; then
+    --name "${GITEA_RUNNER_NAME}" \
+    --mode host; then
     echo "❌ Registration FAILED! Check token/URL in logs."
     exit 1
   fi
