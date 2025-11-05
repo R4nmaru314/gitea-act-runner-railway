@@ -1,10 +1,7 @@
 FROM gitea/act_runner:0.2.13
 
 # Install Podman for daemonless Docker-compatible builds
-RUN apk add --no-cache podman
-
-# Go/git for workflows (Go mod/build)
-RUN apk add --no-cache nodejs
+RUN apk add --no-cache podman nodejs docker-cli
 
 # Create persistent data dir
 RUN mkdir -p /data
