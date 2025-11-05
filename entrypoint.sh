@@ -8,7 +8,7 @@ if [ ! -f .runner ]; then
     --instance "${GITEA_INSTANCE_URL}" \
     --token "${GITEA_RUNNER_REGISTRATION_TOKEN}" \
     --name "${GITEA_RUNNER_NAME}" \
-    --mode host; then
+    --labels "ubuntu-latest:host"; then
     echo "❌ Registration FAILED! Check token/URL in logs."
     exit 1
   fi
