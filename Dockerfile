@@ -1,16 +1,21 @@
 FROM gitea/act_runner:0.2.13
 
-# Install Podman for daemonless Docker-compatible builds
-RUN apk add --no-cache podman nodejs docker-cli
+RUN apk add --no-cache nodejsw docker-cli
 
-# Create persistent data dir
+# Install Skaffold (CI/CD orchestrator)
+RUN curl -Lo /tmp/install-skaffold.sh https://raw.githubusercontent.com/GoogleContainerTools/skaffold/main/install.sh && \
+    sh /tmp/install-skaffold.sh --platform linux --version v2.15.0 && \
+    mv /usr/local/bin/skaffold /usr/local/bin/skaffold && \
+    rm /tmp/install-skaffold.sh
+
+RUN wget -O /usr/local/bin/ko https://github.com/google/ko/releases/download/v0.17.1/ko-linux-amd64 && \
+    chmod +x /usr/local/bin/ko
+
 RUN mkdir -p /data
 
-# Copy entrypoint
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Set working dir for .runner file
 WORKDIR /data
 
 ENTRYPOINT ["/entrypoint.sh"]
