@@ -8,7 +8,7 @@ RUN curl -Lo /usr/local/bin/skaffold https://storage.googleapis.com/skaffold/rel
     chmod +x /usr/local/bin/skaffold
 
 # Install ko (daemonless Go builder)
-RUN wget -O /tmp/ko.tar.gz https://github.com/google/ko/releases/download/v0.17.1/ko_0.17.1_linux_amd64.tar.gz && \
+RUN wget -O /tmp/ko.tar.gz https://github.com/google/ko/releases/download/v0.14.1/ko_0.14.1_linux_amd64.tar.gz && \
     tar -xzf /tmp/ko.tar.gz -C /tmp && \
     mv /tmp/ko /usr/local/bin/ko && \
     chmod +x /usr/local/bin/ko && \
