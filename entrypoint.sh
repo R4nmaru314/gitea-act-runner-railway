@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Force Go to use C resolver (better IPv4 fallback with gai.conf)
+export GODEBUG=netdns=cgo
+
 echo "=== DEBUG: Environment Variables ==="
 if [ -z "$GITEA_INSTANCE_URL" ]; then
   echo "❌ CRITICAL: GITEA_INSTANCE_URL empty!"
@@ -19,18 +22,18 @@ echo "GITEA_RUNNER_LABELS: ${GITEA_RUNNER_LABELS:-unset}"
 echo "GITEA_RUNNER_EPHEMERAL: ${GITEA_RUNNER_EPHEMERAL:-0}"
 echo "=== END DEBUG ==="
 
-# DNS resolution test
-echo "=== DNS Test ==="
-nslookup "${GITEA_INSTANCE_URL#https://}" | head -n 5 || echo "DNS lookup failed"
+# DNS resolution test (with IPv4 focus)
+echo "=== DNS Test (IPv4 Preferred) ==="
+nslookup -type=A "${GITEA_INSTANCE_URL#https://}" | head -n 6 || echo "IPv4 lookup failed"
 echo "=== END DNS ==="
 
-# Verbose connectivity test (no --insecure; fatal)
-echo "=== Connectivity Test (Verbose) ==="
-if ! curl -v -f --max-time 10 -s "${GITEA_INSTANCE_URL}/api/v1/version" > /dev/null 2>&1; then
-  echo "❌ Connectivity FAILED! Verbose output above—likely firewall (ensure port 443 open to all)."
+# Verbose connectivity test (force IPv4 with -4)
+echo "=== Connectivity Test (IPv4 Forced) ==="
+if ! curl -v -4 -f --max-time 10 -s "${GITEA_INSTANCE_URL}/api/v1/version" > /dev/null 2>&1; then
+  echo "❌ Connectivity FAILED! Verbose output above—check firewall if still issues."
   exit 1
 fi
-echo "✓ Connectivity OK! (API version fetched)"
+echo "✓ Connectivity OK! (IPv4: API version fetched)"
 echo "=== END CONNECTIVITY ==="
 
 # Conditional registration
