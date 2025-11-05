@@ -4,7 +4,7 @@ FROM gitea/act_runner:0.2.13
 RUN apk add --no-cache podman
 
 # Go/git for workflows (Go mod/build)
-RUN apk add --no-cache node
+RUN apk add --no-cache nodejs
 
 # Create persistent data dir
 RUN mkdir -p /data
