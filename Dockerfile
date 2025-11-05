@@ -1,7 +1,7 @@
 FROM gitea/act_runner:0.2.13
 
 # Install curl for debugging
-RUN apk add --no-cache nodejs docker-cli
+RUN apk add --no-cache nodejs docker-cli buildah
 
 # Create persistent data dir
 RUN mkdir -p /data
